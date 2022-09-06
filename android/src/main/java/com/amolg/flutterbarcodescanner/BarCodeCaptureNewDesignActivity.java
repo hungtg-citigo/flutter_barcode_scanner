@@ -41,7 +41,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -124,7 +123,7 @@ public final class BarCodeCaptureNewDesignActivity extends AppCompatActivity imp
                                 turnOnOffFlashLight(true);
                             } else {
                                 flashStatus = USE_FLASH.OFF.ordinal();
-                                imgViewBarcodeCaptureUseFlash.setImageResource(R.drawable.ic_barcode_flash_off);
+                                imgViewBarcodeCaptureUseFlash.setImageResource(R.drawable.ic_flash_off);
                                 turnOnOffFlashLight(false);
                             }
                         } catch (Exception e) {
@@ -161,9 +160,9 @@ public final class BarCodeCaptureNewDesignActivity extends AppCompatActivity imp
     private void initAppbarListener() {
         LinearLayout toolbar = findViewById(R.id.tb_toolbar);
         TextView tbExit = findViewById(R.id.tb_exit);
-        toolbar.setVisibility(FlutterBarcodeScannerPlugin.isShowAppbar ? View.VISIBLE : View.GONE);
+        toolbar.setVisibility(FlutterBarcodeScannerPlugin.enableNewDesign ? View.VISIBLE : View.GONE);
 
-        if (FlutterBarcodeScannerPlugin.isShowAppbar) {
+        if (FlutterBarcodeScannerPlugin.enableNewDesign) {
             tbExit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

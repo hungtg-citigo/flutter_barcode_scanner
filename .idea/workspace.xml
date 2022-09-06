@@ -13,22 +13,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da89e606-25cd-40ec-9bab-57632cc5ea41" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable/ic_flash_on.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable/txt_add.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/layout/barcode_capture_new_design.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable/ic_focus.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/amolg/flutterbarcodescanner/BarCodeCaptureNewDesignActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/amolg/flutterbarcodescanner/BarCodeCaptureNewDesignActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/com/amolg/flutterbarcodescanner/BarcodeCaptureActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/amolg/flutterbarcodescanner/BarcodeCaptureActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/com/amolg/flutterbarcodescanner/FlutterBarcodeScannerPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/amolg/flutterbarcodescanner/FlutterBarcodeScannerPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/amolg/flutterbarcodescanner/camera/GraphicOverlay.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/amolg/flutterbarcodescanner/camera/GraphicOverlay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/res/drawable/ic_flash_on.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/res/drawable/ic_flash_off.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/res/layout/barcode_capture.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/res/layout/barcode_capture.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/res/layout/barcode_capture_new_design.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/res/layout/barcode_capture_new_design.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/build 3/app/intermediates/dex_number_of_buckets_file/debug/.out.icloud" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/build 3/app/outputs/flutter-apk/.app 2.apk.icloud" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/build 3/app/outputs/flutter-apk/.app-debug.apk.icloud" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/build 3/app/outputs/flutter-apk/.app.apk.icloud" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/build 3/app/outputs/flutter-apk/.app.apk.sha1.icloud" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/build 3/app/outputs/logs/.manifest-merger-debug-report.txt.icloud" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/build 3/flutter_barcode_scanner/intermediates/local_only_symbol_list/debug/.R-def.txt.icloud" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/build 3/flutter_barcode_scanner/outputs/aar/.flutter_barcode_scanner-debug.aar.icloud" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/build 3/flutter_plugin_android_lifecycle/intermediates/merged_consumer_proguard_file/debug/.proguard.txt.icloud" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/build 3/flutter_plugin_android_lifecycle/intermediates/merged_java_res/debug/.out.jar.icloud" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/build 3/flutter_plugin_android_lifecycle/intermediates/runtime_library_classes_jar/debug/.classes.jar.icloud" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/build 3/flutter_plugin_android_lifecycle/intermediates/symbol_list_with_package_name/debug/.package-aware-r.txt.icloud" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/Flutter/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Flutter/flutter_export_environment.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/flutter_barcode_scanner.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_barcode_scanner.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

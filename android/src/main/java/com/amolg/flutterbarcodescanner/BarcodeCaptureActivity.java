@@ -25,7 +25,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,7 +33,6 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -45,7 +43,6 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -110,7 +107,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         try {
-            setContentView(R.layout.barcode_capture_new_design);
+            setContentView(R.layout.barcode_capture);
 
             String buttonText = "";
             try {
@@ -119,8 +116,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
                 buttonText = "Cancel";
                 Log.e("BCActivity:onCreate()", "onCreate: " + e.getLocalizedMessage());
             }
-            // Config App bar
-            this.initAppbarListener();
 
             Button btnBarcodeCaptureCancel = findViewById(R.id.btnBarcodeCaptureCancel);
             btnBarcodeCaptureCancel.setText(buttonText);
@@ -154,25 +149,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
 
         } catch (Exception e) {
         }
-    }
-
-    private void initAppbarListener() {
-        LinearLayout toolbar = findViewById(R.id.tb_toolbar);
-        toolbar.setVisibility(FlutterBarcodeScannerPlugin.isShowAppbar ? View.VISIBLE : View.GONE);
-
-
-
-//        if (FlutterBarcodeScannerPlugin.isShowAppbar) {
-//            toolbar.setTitle(FlutterBarcodeScannerPlugin.titleAppBar);
-//            toolbar.setTitleTextColor(Color.parseColor(FlutterBarcodeScannerPlugin.titleTextColorAppBar));
-//            toolbar.setBackgroundColor(Color.parseColor(FlutterBarcodeScannerPlugin.titleBackgroundColorAppBar));
-//            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Log.d("TAG", "onClick: kick");
-//                }
-//            });
-//        }
     }
 
     /**
