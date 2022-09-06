@@ -48,8 +48,9 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
     public static String lineColor = "";
     public static boolean isShowFlashIcon = false;
     public static boolean isContinuousScan = false;
-    public static boolean isShowAppbar = false;
+    public static boolean enableNewDesign = false;
     public static String titleAppBar = "";
+    public static String titleContentDescription = "";
     public static String titleTextColorAppBar = "";
     public static String titleBackgroundColorAppBar = "";
     static EventChannel.EventSink barcodeStream;
@@ -68,6 +69,8 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
     // This is null when not using v2 embedding;
     private Lifecycle lifecycle;
     private LifeCycleObserver observer;
+
+    private boolean isNewDesignScreen = false;
 
     public FlutterBarcodeScannerPlugin() {
     }
@@ -97,6 +100,8 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
         try {
             pendingResult = result;
 
+            isNewDesignScreen = call.method.equals("scanBarcodeNewDesign");
+
             if (call.method.equals("scanBarcode")) {
                 if (!(call.arguments instanceof Map)) {
                     throw new IllegalArgumentException("Plugin not passing a map as parameter: " + call.arguments);
@@ -104,24 +109,37 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
                 arguments = (Map<String, Object>) call.arguments;
                 lineColor = (String) arguments.get("lineColor");
                 isShowFlashIcon = (boolean) arguments.get("isShowFlashIcon");
-
-                /// Config app bar
-                isShowAppbar = (boolean) arguments.get("isShowAppbar");
-                titleAppBar = (String) arguments.get("titleAppBar");
-                titleTextColorAppBar = (String) arguments.get("titleTextColorAppBar");
-                titleBackgroundColorAppBar = (String) arguments.get("titleBackgroundColorAppBar");
-                this.checkNullConfigAppBar();
-
                 if (null == lineColor || lineColor.equalsIgnoreCase("")) {
                     lineColor = "#DC143C";
                 }
-
-                if (null == titleTextColorAppBar || titleTextColorAppBar.equalsIgnoreCase("")) {
-                    titleTextColorAppBar = "#000000";
+                if (null != arguments.get("scanMode")) {
+                    if ((int) arguments.get("scanMode") == BarcodeCaptureActivity.SCAN_MODE_ENUM.DEFAULT.ordinal()) {
+                        BarcodeCaptureActivity.SCAN_MODE = BarcodeCaptureActivity.SCAN_MODE_ENUM.QR.ordinal();
+                    } else {
+                        BarcodeCaptureActivity.SCAN_MODE = (int) arguments.get("scanMode");
+                    }
+                } else {
+                    BarcodeCaptureActivity.SCAN_MODE = BarcodeCaptureActivity.SCAN_MODE_ENUM.QR.ordinal();
                 }
 
-                if (null == titleBackgroundColorAppBar || titleBackgroundColorAppBar.equalsIgnoreCase("")) {
-                    titleBackgroundColorAppBar = "#FFFFFF";
+                isContinuousScan = (boolean) arguments.get("isContinuousScan");
+
+                startBarcodeScannerActivityView((String) arguments.get("cancelButtonText"), isContinuousScan);
+
+            } else if (call.method.equals("scanBarcodeNewDesign")) {
+                if (!(call.arguments instanceof Map)) {
+                    throw new IllegalArgumentException("Plugin not passing a map as parameter: " + call.arguments);
+                }
+                arguments = (Map<String, Object>) call.arguments;
+                lineColor = (String) arguments.get("lineColor");
+                isShowFlashIcon = (boolean) arguments.get("isShowFlashIcon");
+
+                enableNewDesign = (boolean) arguments.get("enableNewDesign");
+                titleAppBar = (String) arguments.get("titleAppBar");
+                titleContentDescription = (String) arguments.get("titleContentDescription");
+
+                if (null == lineColor || lineColor.equalsIgnoreCase("")) {
+                    lineColor = "#DC143C";
                 }
 
                 if (null != arguments.get("scanMode")) {
@@ -157,7 +175,9 @@ public class FlutterBarcodeScannerPlugin implements MethodCallHandler, ActivityR
 
     private void startBarcodeScannerActivityView(String buttonText, boolean isContinuousScan) {
         try {
-            Intent intent = new Intent(activity, BarCodeCaptureNewDesignActivity.class).putExtra("cancelButtonText", buttonText);
+            Intent intent = isNewDesignScreen ?
+                    new Intent(activity, BarCodeCaptureNewDesignActivity.class)
+                    : new Intent(activity, BarcodeCaptureActivity.class).putExtra("cancelButtonText", buttonText);
             if (isContinuousScan) {
                 activity.startActivity(intent);
             } else {

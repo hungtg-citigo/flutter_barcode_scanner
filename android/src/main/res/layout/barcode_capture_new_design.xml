@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/topLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
     android:keepScreenOn="true">
+
+    <com.amolg.flutterbarcodescanner.camera.CameraSourcePreview
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@id/layoutBottom"
+        app:layout_constraintTop_toBottomOf="@id/tb_toolbar">
+
+        <com.amolg.flutterbarcodescanner.camera.GraphicOverlay
+            android:id="@+id/graphicOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#44000000" />
+
+        <ImageView
+            android:id="@+id/imgViewSwitchCamera"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="50dp"
+            android:src="@drawable/ic_focus"
+            tools:ignore="ContentDescription" />
+
+    </com.amolg.flutterbarcodescanner.camera.CameraSourcePreview>
 
     <LinearLayout
         android:id="@+id/tb_toolbar"
@@ -13,7 +37,7 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="@android:color/white"
         android:gravity="center_vertical"
-        android:padding="15dp"
+        android:padding="16dp"
         android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -48,21 +72,6 @@
             android:textColor="@android:color/black" />
     </LinearLayout>
 
-    <com.amolg.flutterbarcodescanner.camera.CameraSourcePreview
-        android:id="@+id/preview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/layoutBottom"
-        app:layout_constraintTop_toBottomOf="@id/tb_toolbar">
-
-        <com.amolg.flutterbarcodescanner.camera.GraphicOverlay
-            android:id="@+id/graphicOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#44000000" />
-
-    </com.amolg.flutterbarcodescanner.camera.CameraSourcePreview>
-
     <ImageView
         android:id="@+id/imgViewBarcodeCaptureUseFlash"
         android:layout_width="40dp"
@@ -71,7 +80,7 @@
         android:layout_margin="16dp"
         android:layout_marginTop="23dp"
         android:contentDescription="Flash button"
-        android:src="@drawable/ic_flash_on"
+        android:src="@drawable/ic_flash_off"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tb_toolbar" />
 
@@ -89,7 +98,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="16dp"
             android:src="@drawable/ic_barcode" />
 
         <TextView
@@ -97,6 +106,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="@string/barcode_description"
