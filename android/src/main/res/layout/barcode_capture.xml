@@ -7,11 +7,20 @@
     android:background="@android:color/black"
     android:keepScreenOn="true">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:visibility="visible"
+        app:navigationIcon="?attr/homeAsUpIndicator" />
+
     <com.amolg.flutterbarcodescanner.camera.CameraSourcePreview
         android:id="@+id/preview"
-        android:layout_above="@+id/layoutBottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/layoutBottom"
+        android:layout_below="@+id/tb_toolbar">
 
         <com.amolg.flutterbarcodescanner.camera.GraphicOverlay
             android:id="@+id/graphicOverlay"
@@ -32,14 +41,14 @@
             android:id="@+id/imgViewSwitchCamera"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:contentDescription="Switch camera"
-            android:src="@drawable/ic_switch_camera"
-            android:layout_alignParentStart="true" />
+            android:src="@drawable/ic_switch_camera" />
 
         <ImageView
             android:id="@+id/imgViewBarcodeCaptureUseFlash"

@@ -8,5 +8,6 @@
         android:largeHeap="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name="com.amolg.flutterbarcodescanner.BarcodeCaptureActivity" />
+        <activity android:name="com.amolg.flutterbarcodescanner.BarCodeCaptureNewDesignActivity" />
     </application>
 </manifest>

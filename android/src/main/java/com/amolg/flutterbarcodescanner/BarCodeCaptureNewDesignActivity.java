@@ -25,7 +25,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,7 +33,6 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -46,6 +44,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -66,7 +65,7 @@ import java.io.IOException;
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and ID of each barcode.
  */
-public final class BarcodeCaptureActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener, View.OnClickListener {
+public final class BarCodeCaptureNewDesignActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener  {
 
     // intent request code to handle updating play services if needed.
     private static final int RC_HANDLE_GMS = 9001;
@@ -86,7 +85,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     private GestureDetector gestureDetector;
 
     private ImageView imgViewBarcodeCaptureUseFlash;
-    private ImageView imgViewSwitchCamera;
 
     public static int SCAN_MODE = SCAN_MODE_ENUM.QR.ordinal();
 
@@ -112,27 +110,31 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
         try {
             setContentView(R.layout.barcode_capture_new_design);
 
-            String buttonText = "";
-            try {
-                buttonText = (String) getIntent().getStringExtra("cancelButtonText");
-            } catch (Exception e) {
-                buttonText = "Cancel";
-                Log.e("BCActivity:onCreate()", "onCreate: " + e.getLocalizedMessage());
-            }
-            // Config App bar
             this.initAppbarListener();
 
-            Button btnBarcodeCaptureCancel = findViewById(R.id.btnBarcodeCaptureCancel);
-            btnBarcodeCaptureCancel.setText(buttonText);
-            btnBarcodeCaptureCancel.setOnClickListener(this);
-
             imgViewBarcodeCaptureUseFlash = findViewById(R.id.imgViewBarcodeCaptureUseFlash);
-            imgViewBarcodeCaptureUseFlash.setOnClickListener(this);
+            imgViewBarcodeCaptureUseFlash.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+                        try {
+                            if (flashStatus == USE_FLASH.OFF.ordinal()) {
+                                flashStatus = USE_FLASH.ON.ordinal();
+                                imgViewBarcodeCaptureUseFlash.setImageResource(R.drawable.ic_flash_on);
+                                turnOnOffFlashLight(true);
+                            } else {
+                                flashStatus = USE_FLASH.OFF.ordinal();
+                                imgViewBarcodeCaptureUseFlash.setImageResource(R.drawable.ic_barcode_flash_off);
+                                turnOnOffFlashLight(false);
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(BarCodeCaptureNewDesignActivity.this, "Unable to turn on flash", Toast.LENGTH_SHORT).show();
+                            Log.e("BarcodeCaptureActivity", "FlashOnFailure: " + e.getLocalizedMessage());
+                        }
+                    }
+                }
+            });
             imgViewBarcodeCaptureUseFlash.setVisibility(FlutterBarcodeScannerPlugin.isShowFlashIcon ? View.VISIBLE : View.GONE);
-
-            imgViewSwitchCamera = findViewById(R.id.imgViewSwitchCamera);
-            imgViewSwitchCamera.setOnClickListener(this);
-
             mPreview = findViewById(R.id.preview);
             mGraphicOverlay = findViewById(R.id.graphicOverlay);
 
@@ -158,21 +160,22 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
 
     private void initAppbarListener() {
         LinearLayout toolbar = findViewById(R.id.tb_toolbar);
+        TextView tbExit = findViewById(R.id.tb_exit);
         toolbar.setVisibility(FlutterBarcodeScannerPlugin.isShowAppbar ? View.VISIBLE : View.GONE);
 
-
-
-//        if (FlutterBarcodeScannerPlugin.isShowAppbar) {
-//            toolbar.setTitle(FlutterBarcodeScannerPlugin.titleAppBar);
-//            toolbar.setTitleTextColor(Color.parseColor(FlutterBarcodeScannerPlugin.titleTextColorAppBar));
-//            toolbar.setBackgroundColor(Color.parseColor(FlutterBarcodeScannerPlugin.titleBackgroundColorAppBar));
-//            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Log.d("TAG", "onClick: kick");
-//                }
-//            });
-//        }
+        if (FlutterBarcodeScannerPlugin.isShowAppbar) {
+            tbExit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("TAG", "onClick: kick");
+                    Barcode barcode = new Barcode();
+                    barcode.rawValue = "-1";
+                    barcode.displayValue = "-1";
+                    FlutterBarcodeScannerPlugin.onBarcodeScanReceiver(barcode);
+                    finish();
+                }
+            });
+        }
     }
 
     /**
@@ -416,58 +419,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
         return false;
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.imgViewBarcodeCaptureUseFlash &&
-                getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-            try {
-                if (flashStatus == USE_FLASH.OFF.ordinal()) {
-                    flashStatus = USE_FLASH.ON.ordinal();
-                    imgViewBarcodeCaptureUseFlash.setImageResource(R.drawable.ic_barcode_flash_on);
-                    turnOnOffFlashLight(true);
-                } else {
-                    flashStatus = USE_FLASH.OFF.ordinal();
-                    imgViewBarcodeCaptureUseFlash.setImageResource(R.drawable.ic_barcode_flash_off);
-                    turnOnOffFlashLight(false);
-                }
-            } catch (Exception e) {
-                Toast.makeText(this, "Unable to turn on flash", Toast.LENGTH_SHORT).show();
-                Log.e("BarcodeCaptureActivity", "FlashOnFailure: " + e.getLocalizedMessage());
-            }
-        } else if (i == R.id.btnBarcodeCaptureCancel) {
-            Barcode barcode = new Barcode();
-            barcode.rawValue = "-1";
-            barcode.displayValue = "-1";
-            FlutterBarcodeScannerPlugin.onBarcodeScanReceiver(barcode);
-            finish();
-        } else if (i == R.id.imgViewSwitchCamera) {
-            int currentFacing = mCameraSource.getCameraFacing();
-            boolean autoFocus = mCameraSource.getFocusMode() != null;
-            boolean useFlash = flashStatus == USE_FLASH.ON.ordinal();
-            createCameraSource(autoFocus, useFlash, getInverseCameraFacing(currentFacing));
-            startCameraSource();
-        }
-    }
-
-    private int getInverseCameraFacing(int cameraFacing) {
-        if (cameraFacing == CameraSource.CAMERA_FACING_FRONT) {
-            return CameraSource.CAMERA_FACING_BACK;
-        }
-
-        if (cameraFacing == CameraSource.CAMERA_FACING_BACK) {
-            return CameraSource.CAMERA_FACING_FRONT;
-        }
-
-        // Fallback to camera at the back.
-        return CameraSource.CAMERA_FACING_BACK;
-    }
-
-    /**
-     * Turn on and off flash light based on flag
-     *
-     * @param isFlashToBeTurnOn
-     */
     private void turnOnOffFlashLight(boolean isFlashToBeTurnOn) {
         try {
             if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
