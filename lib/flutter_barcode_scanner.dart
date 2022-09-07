@@ -51,7 +51,7 @@ class FlutterBarcodeScanner {
 
     /// Get barcode scan result
     final barcodeResult =
-        await _channel.invokeMethod('scanBarcode', params) ?? '';
+        await _channel.invokeMethod(enableNewDesign ? 'scanBarcode' : 'scanBarcodeNewDesign', params) ?? '';
     return barcodeResult;
   }
 
