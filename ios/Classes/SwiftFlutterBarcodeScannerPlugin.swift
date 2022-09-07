@@ -89,10 +89,13 @@ public class SwiftFlutterBarcodeScannerPlugin: NSObject, FlutterPlugin, ScanBarc
         }
         
         pendingResult=result
+        let isNew = call.method == "scanBarcodeNewDesign"
         let controller = BarcodeScannerViewController()
         controller.delegate = self
+        controller.isNew = isNew
+       
         
-        if #available(iOS 13.0, *) {
+        if #available(iOS 13.0, *), !isNew {
             controller.modalPresentationStyle = .fullScreen
         }
         
@@ -171,6 +174,7 @@ class BarcodeScannerViewController: UIViewController {
     var screenSize = UIScreen.main.bounds
     private var isOrientationPortrait = true
     var screenHeight:CGFloat = 0
+    var isNew:Bool = false
     let captureMetadataOutput = AVCaptureMetadataOutput()
     
     private lazy var xCor: CGFloat! = {
@@ -181,12 +185,57 @@ class BarcodeScannerViewController: UIViewController {
         return self.isOrientationPortrait ? (screenSize.height - (screenSize.width*0.8))/2 :
             (screenSize.height - (screenSize.height*0.8))/2
     }()
+    
+    //Top view
+    private lazy var topView : UIView! = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     //Bottom view
     private lazy var bottomView : UIView! = {
         let view = UIView()
         view.backgroundColor = UIColor.black
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    //Top title
+    private lazy var topLabel : UILabel! = {
+        let label = UILabel()
+        label.text = "Quét mã vạch"
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    //bottom title
+    private lazy var bottomLabel : UILabel! = {
+        let label = UILabel()
+        label.text = "Đặt mã vào trong khung để quét"
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    //bottom image
+    private lazy var barcodeImageView : UIImageView! = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "ic_barcode")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    //center image view
+    private lazy var centerImageView : UIImageView! = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "ic_qrcode")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     /// Create and return flash button
@@ -340,7 +389,9 @@ class BarcodeScannerViewController: UIViewController {
         if let qrCodeFrameView = qrCodeFrameView {
             self.view.addSubview(qrCodeFrameView)
             self.view.bringSubviewToFront(qrCodeFrameView)
-            qrCodeFrameView.layer.insertSublayer(fillLayer, below: videoPreviewLayer!)
+            if !isNew {
+                qrCodeFrameView.layer.insertSublayer(fillLayer, below: videoPreviewLayer!)
+            }
             self.view.bringSubviewToFront(bottomView)
             self.view.bringSubviewToFront(flashIcon)
             if(!SwiftFlutterBarcodeScannerPlugin.isShowFlashIcon){
@@ -352,8 +403,14 @@ class BarcodeScannerViewController: UIViewController {
             self.view.bringSubviewToFront(cancelButton)
             self.view.bringSubviewToFront(switchCameraButton)
         }
-        setConstraintsForControls()
-        self.drawLine()
+        
+        if isNew {
+            setConstraintsForControlsNewDesign()
+        } else {
+            setConstraintsForControls()
+            drawLine()
+        }
+        
         processCompletionCallback()
     }
     
@@ -386,6 +443,56 @@ class BarcodeScannerViewController: UIViewController {
         switchCameraButton.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
         switchCameraButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
     }
+    
+    private func setConstraintsForControlsNewDesign() {
+        bottomView.backgroundColor = .white
+        cancelButton.setTitle("Đóng", for: .normal)
+        cancelButton.setTitleColor(.black, for: .normal)
+        
+        self.view.addSubview(topView)
+        self.view.addSubview(bottomView)
+        self.view.addSubview(centerImageView)
+        self.topView.addSubview(cancelButton)
+        self.topView.addSubview(topLabel)
+        self.bottomView.addSubview(barcodeImageView)
+        self.bottomView.addSubview(bottomLabel)
+//        self.view.addSubview(flashIcon)
+        
+        //        flashIcon.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        //        flashIcon.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        //        flashIcon.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+        //        flashIcon.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
+        
+        topView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:0).isActive = true
+        topView.topAnchor.constraint(equalTo: view.topAnchor, constant:0).isActive = true
+        topView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:0).isActive = true
+        topView.heightAnchor.constraint(equalToConstant:self.isOrientationPortrait ? 55.0 : 70.0).isActive=true
+        
+        cancelButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
+        cancelButton.leadingAnchor.constraint(equalTo: topView.leadingAnchor, constant:16).isActive = true
+        
+        topLabel.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
+        topLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor).isActive = true
+        
+        bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:0).isActive = true
+        bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant:0).isActive = true
+        bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:0).isActive = true
+        bottomView.heightAnchor.constraint(equalToConstant:self.isOrientationPortrait ? 55.0 : 70.0).isActive=true
+        
+        barcodeImageView.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
+        barcodeImageView.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant:20).isActive = true
+        barcodeImageView.heightAnchor.constraint(equalToConstant:21).isActive=true
+        barcodeImageView.widthAnchor.constraint(equalToConstant:28).isActive=true
+        
+        bottomLabel.centerYAnchor.constraint(equalTo: barcodeImageView.centerYAnchor).isActive = true
+        bottomLabel.leadingAnchor.constraint(equalTo: barcodeImageView.trailingAnchor, constant: 8).isActive = true
+        
+        centerImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        centerImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        centerImageView.heightAnchor.constraint(equalToConstant:190).isActive=true
+        centerImageView.widthAnchor.constraint(equalToConstant:285).isActive=true
+    }
+    
     
     /// Flash button click event listener
     @IBAction private func flashButtonClicked() {
