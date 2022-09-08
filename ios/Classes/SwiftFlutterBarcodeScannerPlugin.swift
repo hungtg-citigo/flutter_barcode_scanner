@@ -448,6 +448,12 @@ class BarcodeScannerViewController: UIViewController {
         bottomView.backgroundColor = .white
         cancelButton.setTitle("Đóng", for: .normal)
         cancelButton.setTitleColor(.black, for: .normal)
+        flashIcon.setImage(UIImage(named: "ic_flash_off"), for: .normal)
+//        flashIcon.layer.cornerRadius = 20
+//        flashIcon.layer.borderWidth = 2
+//        flashIcon.layer.borderColor = UIColor.white.cgColor
+//        flashIcon.layer.masksToBounds = true
+//        flashIcon.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         
         self.view.addSubview(topView)
         self.view.addSubview(bottomView)
@@ -456,12 +462,7 @@ class BarcodeScannerViewController: UIViewController {
         self.topView.addSubview(topLabel)
         self.bottomView.addSubview(barcodeImageView)
         self.bottomView.addSubview(bottomLabel)
-//        self.view.addSubview(flashIcon)
-        
-        //        flashIcon.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //        flashIcon.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        //        flashIcon.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-        //        flashIcon.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
+        self.view.addSubview(flashIcon)
         
         topView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:0).isActive = true
         topView.topAnchor.constraint(equalTo: view.topAnchor, constant:0).isActive = true
@@ -491,6 +492,11 @@ class BarcodeScannerViewController: UIViewController {
         centerImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         centerImageView.heightAnchor.constraint(equalToConstant:190).isActive=true
         centerImageView.widthAnchor.constraint(equalToConstant:285).isActive=true
+        
+        flashIcon.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 23).isActive = true
+        flashIcon.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        flashIcon.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+        flashIcon.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
     }
     
     
@@ -504,11 +510,21 @@ class BarcodeScannerViewController: UIViewController {
     }
     
     private func flashIconOff() {
-        flashIcon.setImage(UIImage(named: "ic_flash_off", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for:.normal)
+        if (isNew) {
+            flashIcon.setImage(UIImage(named: "ic_flash_off"), for: .normal)
+        } else {
+            flashIcon.setImage(UIImage(named: "ic_flash_off", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for: .normal)
+        }
+        
     }
     
     private func flashIconOn() {
-        flashIcon.setImage(UIImage(named: "ic_flash_on", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for:.normal)
+        if (isNew) {
+            flashIcon.setImage(UIImage(named: "ic_flash_on"), for:.normal)
+        } else {
+            flashIcon.setImage(UIImage(named: "ic_flash_on", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for:.normal)
+        }
+        
     }
     
     private func setFlashStatus(device: AVCaptureDevice, mode: AVCaptureDevice.TorchMode) {
