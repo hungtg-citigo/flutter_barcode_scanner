@@ -448,7 +448,7 @@ class BarcodeScannerViewController: UIViewController {
         bottomView.backgroundColor = .white
         cancelButton.setTitle("Đóng", for: .normal)
         cancelButton.setTitleColor(.black, for: .normal)
-        flashIcon.setImage(UIImage(named: "ic_flash_off_new"), for: .normal)
+        flashIcon.setImage(UIImage(named: "ic_flash_off_new", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for: .normal)
 //        flashIcon.layer.cornerRadius = 20
 //        flashIcon.layer.borderWidth = 2
 //        flashIcon.layer.borderColor = UIColor.white.cgColor
