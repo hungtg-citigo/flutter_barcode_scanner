@@ -225,7 +225,7 @@ class BarcodeScannerViewController: UIViewController {
     //bottom image
     private lazy var barcodeImageView : UIImageView! = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "ic_barcode")
+        imageView.image = UIImage(named: "ic_barcode", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -233,7 +233,7 @@ class BarcodeScannerViewController: UIViewController {
     //center image view
     private lazy var centerImageView : UIImageView! = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "ic_qrcode")
+        imageView.image =  UIImage(named: "ic_qrcode", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -511,7 +511,8 @@ class BarcodeScannerViewController: UIViewController {
     
     private func flashIconOff() {
         if (isNew) {
-            flashIcon.setImage(UIImage(named: "ic_flash_off"), for: .normal)
+            
+            flashIcon.setImage(UIImage(named: "ic_flash_off_new", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for: .normal)
         } else {
             flashIcon.setImage(UIImage(named: "ic_flash_off", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for: .normal)
         }
@@ -520,7 +521,8 @@ class BarcodeScannerViewController: UIViewController {
     
     private func flashIconOn() {
         if (isNew) {
-            flashIcon.setImage(UIImage(named: "ic_flash_on"), for:.normal)
+            
+            flashIcon.setImage(UIImage(named: "ic_flash_on_new", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for: .normal)
         } else {
             flashIcon.setImage(UIImage(named: "ic_flash_on", in: Bundle(for: SwiftFlutterBarcodeScannerPlugin.self), compatibleWith: nil),for:.normal)
         }
