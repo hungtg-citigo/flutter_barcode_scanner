@@ -27,10 +27,11 @@ public class CentralDetector extends Detector<Barcode> {
         // *** crop the frame here
         int width = frame.getMetadata().getWidth();
         int height = frame.getMetadata().getHeight();
-        int right = (width / 2) + (mBoxHeight / 2);
-        int left = (width / 2) - (mBoxHeight / 2);
-        int bottom = (height / 2) + (mBoxWidth / 2);
-        int top = (height / 2) - (mBoxWidth / 2);
+
+        int right = (int) (width * 0.8);
+        int left = (int) (width * 0.2);
+        int bottom = (int) (height * 0.7);
+        int top = (int) (height * 0.3);
 
         YuvImage yuvImage = new YuvImage(frame.getGrayscaleImageData().array(), ImageFormat.NV21, width, height, null);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
